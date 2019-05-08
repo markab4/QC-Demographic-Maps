@@ -35,12 +35,13 @@ svg.call(tip);
 
 queue()
     .defer(d3.json, "world_countries.json")
-    .defer(d3.tsv, "world_population.tsv")
+    // .defer(d3.tsv, "world_population.tsv")
+    .defer(d3.tsv, "ancestry_by_year.tsv")
     .await(ready);
 
 function ready(error, data, population) {
     var populationById = {};
-
+    console.log("data", data, "population", population);
     population.forEach(function(d) { populationById[d.id] = +d.population; });
     data.features.forEach(function(d) { d.population = populationById[d.id] });
 
