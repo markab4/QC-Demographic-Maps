@@ -2,6 +2,10 @@ body {
     margin: 0.25in 1in;
 }
 
+h2 {
+    padding-top: 40px;
+}
+
 .names {
     fill: none;
     stroke: #fff;
