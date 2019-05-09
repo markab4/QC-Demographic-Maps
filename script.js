@@ -1,3 +1,16 @@
+$( function() {
+    $( "#slider" ).slider({
+        value:2007,
+        min: 2007,
+        max: 2018,
+        step: 1,
+        slide: function( event, ui ) {
+            $( "#amount" ).val( ui.value );
+        }
+    });
+    $( "#amount" ).val($( "#slider" ).slider( "value" ) );
+} );
+
 var format = d3.format(",");
 
 // Set tooltips
