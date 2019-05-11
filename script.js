@@ -19,7 +19,7 @@ var tip = d3.tip()
     .offset([-10, 0])
     .html(function(d) {
         return "<strong>Country: </strong><span class='details'>" + d.properties.name + "<br></span>" + "<strong>Students: </strong><span class='details'>" + format(isNaN(d.students2007) ? 0 : d.students2007) +"</span>";
-    })
+    });
 
 var margin = {top: 0, right: 0, bottom: 0, left: 0},
     width = 960 - margin.left - margin.right,
@@ -95,4 +95,6 @@ function ready(error, data, students2007) {
         // .datum(topojson.mesh(data.features, function(a, b) { return a !== b; }))
         .attr("class", "names")
         .attr("d", path);
+
+    document.getElementsByTagName("svg")[0].classList.add("map-container", "row");
 }
