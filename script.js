@@ -6,6 +6,8 @@ $(function () {
         step: 1,
         slide: function (event, ui) {
             $("#amount").val(ui.value);
+            let map = document.getElementsByClassName("map-container")[0];
+            map.parentNode.removeChild(map);
             makeMap(ui.value);
         }
     });
