@@ -19,9 +19,21 @@
 <link rel="stylesheet" href="/resources/demos/style.css">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <link rel="stylesheet" href="styles.css">
+<script src='//cdnjs.cloudflare.com/ajax/libs/dat-gui/0.5/dat.gui.min.js'></script>
+<script src='//cdnjs.cloudflare.com/ajax/libs/stats.js/r11/Stats.js'></script>
+<script src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/6043/css_globe_PerspectiveTransform.js'></script>
+<script src='//cdnjs.cloudflare.com/ajax/libs/gsap/1.16.1/TweenMax.min.js'></script>
 
 <body>
-
+<div class="world">
+    <div class="world-bg"></div>
+    <div class="world-globe">
+        <div class="world-globe-pole"></div>
+        <div class="world-globe-doms-container"></div>
+        <div class="world-globe-halo"></div>
+    </div>
+</div>
+<div id="main-body">
 <section>
     <h1>Queens College Diversity</h1>
     <p> Not only is Queens College is located in Queens, New York, the most diverse county in the nation,
@@ -49,12 +61,12 @@
 
 <h2>
     <label for="amount">Ancestry of Students Enrolled In Year: </label>
-    <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
+    <input type="text" id="amount" readonly style="border:0; background-color: transparent; color:#f6931f; font-weight:bold;">
 </h2>
 
 <div id="slider"></div>
 
-
+</div>
 
 <!-- Bootstrap tooltips -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
