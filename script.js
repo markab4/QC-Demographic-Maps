@@ -8,9 +8,18 @@ $(function () {
         slide: function (event, ui) {
             $("#amount").val(ui.value);
             makeMap(ui.value);
+            let maps = document.getElementsByClassName("map-container");
+            for(let i=0; i< maps.length - 1; i++) {
+                maps[i].classList.add("remove");
+            }
+            $(".remove").fadeOut(1000);
             setTimeout(function(){
-                let map = document.getElementsByClassName("map-container")[0];
-                map.parentNode.removeChild(map);
+                let remove = document.getElementsByClassName("remove");
+                for(let i=0; i< remove.length; i++) {
+                    remove[i].parentNode.removeChild(remove[i]);
+                }
+                // map.parentNode.removeChild(map);
+                // map.style = "visibility: none";
             },1000);
         }
     });
@@ -43,8 +52,12 @@ function makeMap(year) {
         .attr("width", width)
         .attr("height", height)
         .append('g')
-        .attr('class', 'map');
-
+        .attr('class', 'map')
+    ;
+    let maps = document.getElementsByTagName("svg");
+    for (let i=0; i<maps.length; i++){
+        maps[i].classList.add("map-container", "row");
+    }
     let projection = d3.geoMercator()
         .scale(130)
         .translate([width / 2, height / 1.5]);
@@ -106,7 +119,5 @@ function makeMap(year) {
             // .datum(topojson.mesh(data.features, function(a, b) { return a !== b; }))
             .attr("class", "names")
             .attr("d", path);
-
-        document.getElementsByTagName("svg")[0].classList.add("map-container", "row");
     }
 }
