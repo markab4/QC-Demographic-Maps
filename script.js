@@ -387,7 +387,7 @@ function makeMap(year) {
         .domain([0, 1, 5, 10, 25, 50, 100, 250, 500, 1000])
         .range(["rgb(247,251,255)", "rgb(222,235,247)", "rgb(198,219,239)", "rgb(158,202,225)", "rgb(107,174,214)", "rgb(66,146,198)", "rgb(33,113,181)", "rgb(8,81,156)", "rgb(8,48,107)", "rgb(3,19,43)"]);
 
-    let svg = d3.select("body")
+    let svg = d3.select(".main-body")
         .append("svg")
         .attr("width", width)
         .attr("height", height)
@@ -396,7 +396,7 @@ function makeMap(year) {
     ;
     let maps = document.getElementsByTagName("svg");
     for (let i=0; i<maps.length; i++){
-        maps[i].classList.add("map-container", "row", "main-body");
+        maps[i].classList.add("map-container", "row", "justify-content-center");
     }
     let projection = d3.geoMercator()
         .scale(130)
