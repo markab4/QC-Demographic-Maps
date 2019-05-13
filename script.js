@@ -11,8 +11,8 @@ let config = {
 
     skipPreloaderAnimation: false,
 
-    goToHongKong: function() {
-        goTo(22.28552,114.15769);
+    goToHongKong: function () {
+        goTo(22.28552, 114.15769);
     }
 };
 
@@ -75,7 +75,9 @@ function init(ref) {
     stats = new Stats();
 
     // events
-    world.ondragstart = function () {return false;};
+    world.ondragstart = function () {
+        return false;
+    };
     world.addEventListener('mousedown', onMouseDown);
     world.addEventListener('mousemove', onMouseMove);
     world.addEventListener('mouseup', onMouseUp);
@@ -87,7 +89,7 @@ function init(ref) {
 }
 
 function touchPass(func) {
-    return function(evt) {
+    return function (evt) {
         evt.preventDefault();
         func.call(this, {pageX: evt.changedTouches[0].pageX, pageY: evt.changedTouches[0].pageY});
     };
@@ -102,7 +104,7 @@ function onMouseDown(evt) {
 }
 
 function onMouseMove(evt) {
-    if(isMouseDown) {
+    if (isMouseDown) {
         let dX = evt.pageX - dragX;
         let dY = evt.pageY - dragY;
         config.lat = clamp(dragLat + dY * 0.5, -90, 90);
@@ -111,7 +113,7 @@ function onMouseMove(evt) {
 }
 
 function onMouseUp(evt) {
-    if(isMouseDown) {
+    if (isMouseDown) {
         isMouseDown = false;
     }
 }
@@ -141,29 +143,29 @@ function regenerateGlobe() {
     let thetaStart = 0;
     let thetaLength = Math.PI;
 
-    for ( y = 0; y <= segY; y ++ ) {
+    for (y = 0; y <= segY; y++) {
 
         verticesRow = [];
 
-        for ( x = 0; x <= segX; x ++ ) {
+        for (x = 0; x <= segX; x++) {
 
             let u = x / segX;
             let v = 0.05 + y / segY * (1 - 0.1);
 
             let vertex = {
-                x: - radius * Math.cos( phiStart + u * phiLength ) * Math.sin( thetaStart + v * thetaLength ),
-                y: -radius * Math.cos( thetaStart + v * thetaLength ),
-                z: radius * Math.sin( phiStart + u * phiLength ) * Math.sin( thetaStart + v * thetaLength ),
+                x: -radius * Math.cos(phiStart + u * phiLength) * Math.sin(thetaStart + v * thetaLength),
+                y: -radius * Math.cos(thetaStart + v * thetaLength),
+                z: radius * Math.sin(phiStart + u * phiLength) * Math.sin(thetaStart + v * thetaLength),
                 phi: phiStart + u * phiLength,
                 theta: thetaStart + v * thetaLength
             };
-            verticesRow.push( vertex );
+            verticesRow.push(vertex);
         }
-        vertices.push( verticesRow );
+        vertices.push(verticesRow);
     }
 
-    for ( y = 0; y < segY; ++y ) {
-        for ( x = 0; x < segX; ++x ) {
+    for (y = 0; y < segY; ++y) {
+        for (x = 0; x < segX; ++x) {
             dom = document.createElement('div');
             domStyle = dom.style;
             domStyle.position = 'absolute';
@@ -172,11 +174,11 @@ function regenerateGlobe() {
             domStyle.overflow = 'hidden';
             domStyle[PerspectiveTransform.transformOriginStyleName] = '0 0';
             domStyle.backgroundImage = diffuseImgBackgroundStyle;
-            dom.perspectiveTransform = new PerspectiveTransform(dom , segWidth, segHeight);
-            dom.topLeft = vertices[ y ][ x ];
-            dom.topRight = vertices[ y ][ x + 1];
-            dom.bottomLeft = vertices[ y + 1 ][ x ];
-            dom.bottomRight = vertices[ y + 1 ][ x + 1 ];
+            dom.perspectiveTransform = new PerspectiveTransform(dom, segWidth, segHeight);
+            dom.topLeft = vertices[y][x];
+            dom.topRight = vertices[y][x + 1];
+            dom.bottomLeft = vertices[y + 1][x];
+            dom.bottomRight = vertices[y + 1][x + 1];
             domStyle.backgroundPosition = (-segWidth * x) + 'px ' + (-segHeight * y) + 'px';
             globeContainer.appendChild(dom);
             globeDoms.push(dom);
@@ -194,12 +196,12 @@ function loop() {
 
 function render() {
 
-    if(config.autoSpin && !isMouseDown && !isTweening) {
+    if (config.autoSpin && !isMouseDown && !isTweening) {
         config.lng = clampLng(config.lng - 0.2);
     }
 
-    rX = config.lat / 180 * Math. PI;
-    rY = (clampLng(config.lng)  - 270) / 180 * Math. PI;
+    rX = config.lat / 180 * Math.PI;
+    rY = (clampLng(config.lng) - 270) / 180 * Math.PI;
 
     globePole.style.display = config.isPoleVisible ? 'block' : 'none';
     globeHalo.style.display = config.isHaloVisible ? 'block' : 'none';
@@ -226,7 +228,7 @@ function transformGlobe() {
 
     let dom, perspectiveTransform;
     let x, y, v1, v2, v3, v4, vertex, verticesRow, i, len;
-    if(tick ^= 1) {
+    if (tick ^= 1) {
         sinRY = Math.sin(rY);
         sinRX = Math.sin(-rX);
         sinRZ = Math.sin(rZ);
@@ -237,15 +239,15 @@ function transformGlobe() {
         let segX = config.segX;
         let segY = config.segY;
 
-        for ( y = 0; y <= segY; y ++ ) {
+        for (y = 0; y <= segY; y++) {
             verticesRow = vertices[y];
-            for ( x = 0; x <= segX; x ++ ) {
+            for (x = 0; x <= segX; x++) {
                 rotate(vertex = verticesRow[x], vertex.x, vertex.y, vertex.z);
             }
         }
 
-        for ( y = 0; y < segY; y ++ ) {
-            for ( x = 0; x < segX; x ++ ) {
+        for (y = 0; y < segY; y++) {
+            for (x = 0; x < segX; x++) {
                 dom = globeDoms[x + segX * y];
 
                 v1 = dom.topLeft;
@@ -269,15 +271,15 @@ function transformGlobe() {
                 perspectiveTransform.bottomRight.y = v4.ty;
                 perspectiveTransform.hasError = perspectiveTransform.checkError();
 
-                if(!(perspectiveTransform.hasError = perspectiveTransform.checkError())) {
+                if (!(perspectiveTransform.hasError = perspectiveTransform.checkError())) {
                     perspectiveTransform.calc();
                 }
             }
         }
     } else {
-        for ( i = 0, len = globeDoms.length; i < len; i ++ ) {
+        for (i = 0, len = globeDoms.length; i < len; i++) {
             perspectiveTransform = globeDoms[i].perspectiveTransform;
-            if(!perspectiveTransform.hasError) {
+            if (!perspectiveTransform.hasError) {
                 perspectiveTransform.update();
             } else {
                 perspectiveTransform.style[transformStyleName] = 'translate3d(-8192px, 0, 0)';
@@ -291,10 +293,12 @@ function goTo(lat, lng) {
     let dY = lng - config.lng;
     let roughDistance = Math.sqrt(dX * dX + dY * dY);
     isTweening = true;
-    TweenMax.to(config, roughDistance * 0.01, {lat: lat, lng: lng, ease:'easeInOutSine'});
-    TweenMax.to(config, 1, {delay: roughDistance * 0.01, zoom: 1, ease:'easeInOutSine', onComplete: function(){
+    TweenMax.to(config, roughDistance * 0.01, {lat: lat, lng: lng, ease: 'easeInOutSine'});
+    TweenMax.to(config, 1, {
+        delay: roughDistance * 0.01, zoom: 1, ease: 'easeInOutSine', onComplete: function () {
             isTweening = false;
-        }});
+        }
+    });
 }
 
 function rotate(vertex, x, y, z) {
@@ -312,12 +316,12 @@ function rotate(vertex, x, y, z) {
 }
 
 // shameless stole and edited from threejs CanvasRenderer
-function expand( v1, v2 ) {
+function expand(v1, v2) {
 
     let x = v2.px - v1.px, y = v2.py - v1.py,
         det = x * x + y * y, idet;
 
-    if ( det === 0 ) {
+    if (det === 0) {
         v1.tx = v1.px;
         v1.ty = v1.py;
         v2.tx = v2.px;
@@ -325,9 +329,10 @@ function expand( v1, v2 ) {
         return;
     }
 
-    idet = pixelExpandOffset / Math.sqrt( det );
+    idet = pixelExpandOffset / Math.sqrt(det);
 
-    x *= idet; y *= idet;
+    x *= idet;
+    y *= idet;
 
     v2.tx = v2.px + x;
     v2.ty = v2.py + y;
@@ -349,18 +354,18 @@ $(function () {
             $("#amount").val(ui.value);
             makeMap(ui.value);
             let maps = document.getElementsByClassName("map-container");
-            for(let i=0; i< maps.length - 1; i++) {
+            for (let i = 0; i < maps.length - 1; i++) {
                 maps[i].classList.add("remove");
             }
             $(".remove").fadeOut(3000);
-            setTimeout(function(){
+            setTimeout(function () {
                 let remove = document.getElementsByClassName("remove");
-                for(let i=0; i< remove.length; i++) {
+                for (let i = 0; i < remove.length; i++) {
                     remove[i].parentNode.removeChild(remove[i]);
                 }
                 // map.parentNode.removeChild(map);
                 // map.style = "visibility: none";
-            },1000);
+            }, 1000);
         }
     });
     let year = $slider.slider("value");
@@ -387,7 +392,7 @@ function makeMap(year) {
         .domain([0, 1, 5, 10, 25, 50, 100, 250, 500, 1000])
         .range(["rgb(247,251,255)", "rgb(222,235,247)", "rgb(198,219,239)", "rgb(158,202,225)", "rgb(107,174,214)", "rgb(66,146,198)", "rgb(33,113,181)", "rgb(8,81,156)", "rgb(8,48,107)", "rgb(3,19,43)"]);
 
-    let svg = d3.select(".main-body")
+    let svg = d3.select("#map-body")
         .append("svg")
         .attr("width", width)
         .attr("height", height)
@@ -395,7 +400,7 @@ function makeMap(year) {
         .attr('class', 'map')
     ;
     let maps = document.getElementsByTagName("svg");
-    for (let i=0; i<maps.length; i++){
+    for (let i = 0; i < maps.length; i++) {
         maps[i].classList.add("map-container", "row", "justify-content-center");
     }
     let projection = d3.geoMercator()
@@ -428,7 +433,9 @@ function makeMap(year) {
             .data(data.features)
             .enter().append("path")
             .attr("d", path)
-            .style("fill", function (d) {return studentsByCountryId[d.id] ? color(studentsByCountryId[d.id]) : "rgb(247,251,255)";})
+            .style("fill", function (d) {
+                return studentsByCountryId[d.id] ? color(studentsByCountryId[d.id]) : "rgb(247,251,255)";
+            })
             .style('stroke', 'white')
             .style('stroke-width', 1.5)
             .style("opacity", 0.8)
