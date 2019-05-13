@@ -1,4 +1,4 @@
-var config = {
+let config = {
     percent: 0,
     lat: 0,
     lng: 0,
@@ -16,46 +16,46 @@ var config = {
     }
 };
 
-var stats;
-var imgs;
-var preloader;
-var preloadPercent;
-var globeDoms;
-var vertices;
+let stats;
+let imgs;
+let preloader;
+let preloadPercent;
+let globeDoms;
+let vertices;
 
-var world;
-var worldBg;
-var globe;
-var globeContainer;
-var globePole;
-var globeHalo;
+let world;
+let worldBg;
+let globe;
+let globeContainer;
+let globePole;
+let globeHalo;
 
-var pixelExpandOffset = 1.5;
-var rX = 0;
-var rY = 0;
-var rZ = 0;
-var sinRX;
-var sinRY;
-var sinRZ;
-var cosRX;
-var cosRY;
-var cosRZ;
-var dragX;
-var dragY;
-var dragLat;
-var dragLng;
+let pixelExpandOffset = 1.5;
+let rX = 0;
+let rY = 0;
+let rZ = 0;
+let sinRX;
+let sinRY;
+let sinRZ;
+let cosRX;
+let cosRY;
+let cosRZ;
+let dragX;
+let dragY;
+let dragLat;
+let dragLng;
 
-var isMouseDown = false;
-var isTweening = false;
-var tick = 1;
+let isMouseDown = false;
+let isTweening = false;
+let tick = 1;
 
-var URLS = {
+let URLS = {
     bg: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/6043/css_globe_bg.jpg',
     diffuse: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/6043/css_globe_diffuse.jpg',
     halo: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/6043/css_globe_halo.png',
 };
 
-var transformStyleName = PerspectiveTransform.transformStyleName;
+let transformStyleName = PerspectiveTransform.transformStyleName;
 
 function init(ref) {
 
@@ -103,8 +103,8 @@ function onMouseDown(evt) {
 
 function onMouseMove(evt) {
     if(isMouseDown) {
-        var dX = evt.pageX - dragX;
-        var dY = evt.pageY - dragY;
+        let dX = evt.pageX - dragX;
+        let dY = evt.pageY - dragY;
         config.lat = clamp(dragLat + dY * 0.5, -90, 90);
         config.lng = clampLng(dragLng - dX * 0.5, -180, 180);
     }
@@ -117,29 +117,29 @@ function onMouseUp(evt) {
 }
 
 function regenerateGlobe() {
-    var dom, domStyle;
-    var x, y;
+    let dom, domStyle;
+    let x, y;
     globeDoms = [];
     while (dom = globeContainer.firstChild) {
         globeContainer.removeChild(dom);
     }
 
-    var segX = config.segX;
-    var segY = config.segY;
-    var diffuseImgBackgroundStyle = 'url(' + URLS.diffuse + ')';
-    var segWidth = 1600 / segX | 0;
-    var segHeight = 800 / segY | 0;
+    let segX = config.segX;
+    let segY = config.segY;
+    let diffuseImgBackgroundStyle = 'url(' + URLS.diffuse + ')';
+    let segWidth = 1600 / segX | 0;
+    let segHeight = 800 / segY | 0;
 
     vertices = [];
 
-    var verticesRow;
-    var radius = (536) / 2;
+    let verticesRow;
+    let radius = (536) / 2;
 
-    var phiStart = 0;
-    var phiLength = Math.PI * 2;
+    let phiStart = 0;
+    let phiLength = Math.PI * 2;
 
-    var thetaStart = 0;
-    var thetaLength = Math.PI;
+    let thetaStart = 0;
+    let thetaLength = Math.PI;
 
     for ( y = 0; y <= segY; y ++ ) {
 
@@ -147,10 +147,10 @@ function regenerateGlobe() {
 
         for ( x = 0; x <= segX; x ++ ) {
 
-            var u = x / segX;
-            var v = 0.05 + y / segY * (1 - 0.1);
+            let u = x / segX;
+            let v = 0.05 + y / segY * (1 - 0.1);
 
-            var vertex = {
+            let vertex = {
                 x: - radius * Math.cos( phiStart + u * phiLength ) * Math.sin( thetaStart + v * thetaLength ),
                 y: -radius * Math.cos( thetaStart + v * thetaLength ),
                 z: radius * Math.sin( phiStart + u * phiLength ) * Math.sin( thetaStart + v * thetaLength ),
@@ -204,7 +204,7 @@ function render() {
     globePole.style.display = config.isPoleVisible ? 'block' : 'none';
     globeHalo.style.display = config.isHaloVisible ? 'block' : 'none';
 
-    var ratio = Math.pow(config.zoom, 1.5);
+    let ratio = Math.pow(config.zoom, 1.5);
     pixelExpandOffset = 1.5 + (ratio) * -1.25;
     ratio = 1 + ratio * 3;
     globe.style[transformStyleName] = 'scale3d(' + ratio + ',' + ratio + ',1)';
@@ -224,8 +224,8 @@ function clampLng(lng) {
 
 function transformGlobe() {
 
-    var dom, perspectiveTransform;
-    var x, y, v1, v2, v3, v4, vertex, verticesRow, i, len;
+    let dom, perspectiveTransform;
+    let x, y, v1, v2, v3, v4, vertex, verticesRow, i, len;
     if(tick ^= 1) {
         sinRY = Math.sin(rY);
         sinRX = Math.sin(-rX);
@@ -234,8 +234,8 @@ function transformGlobe() {
         cosRX = Math.cos(-rX);
         cosRZ = Math.cos(rZ);
 
-        var segX = config.segX;
-        var segY = config.segY;
+        let segX = config.segX;
+        let segY = config.segY;
 
         for ( y = 0; y <= segY; y ++ ) {
             verticesRow = vertices[y];
@@ -287,9 +287,9 @@ function transformGlobe() {
 }
 
 function goTo(lat, lng) {
-    var dX = lat - config.lat;
-    var dY = lng - config.lng;
-    var roughDistance = Math.sqrt(dX * dX + dY * dY);
+    let dX = lat - config.lat;
+    let dY = lng - config.lng;
+    let roughDistance = Math.sqrt(dX * dX + dY * dY);
     isTweening = true;
     TweenMax.to(config, roughDistance * 0.01, {lat: lat, lng: lng, ease:'easeInOutSine'});
     TweenMax.to(config, 1, {delay: roughDistance * 0.01, zoom: 1, ease:'easeInOutSine', onComplete: function(){
@@ -303,7 +303,7 @@ function rotate(vertex, x, y, z) {
     y0 = y * cosRX - z0 * sinRX;
     z0 = z0 * cosRX + y * sinRX;
 
-    var offset = 1 + (z0 / 4000);
+    let offset = 1 + (z0 / 4000);
     x1 = x0 * cosRZ - y0 * sinRZ;
     y0 = y0 * cosRZ + x0 * sinRZ;
 
@@ -314,7 +314,7 @@ function rotate(vertex, x, y, z) {
 // shameless stole and edited from threejs CanvasRenderer
 function expand( v1, v2 ) {
 
-    var x = v2.px - v1.px, y = v2.py - v1.py,
+    let x = v2.px - v1.px, y = v2.py - v1.py,
         det = x * x + y * y, idet;
 
     if ( det === 0 ) {
@@ -396,7 +396,7 @@ function makeMap(year) {
     ;
     let maps = document.getElementsByTagName("svg");
     for (let i=0; i<maps.length; i++){
-        maps[i].classList.add("map-container", "row");
+        maps[i].classList.add("map-container", "row", "main-body");
     }
     let projection = d3.geoMercator()
         .scale(130)
