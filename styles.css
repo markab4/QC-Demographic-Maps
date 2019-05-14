@@ -2,9 +2,14 @@
     margin: 0.25in 1in;
 }
 
+#map-body {
+    height: 70vh;
+}
+
 .map-container {
     margin: 0 auto;
     position: absolute;
+    margin-bottom: 50px;
 }
 
 h2 {
@@ -159,4 +164,9 @@ section {
     height: 715px;
     margin-left: -368px;
     margin-top: -350px;
+}
+
+footer {
+    position: sticky;
+    bottom: 0;
 }

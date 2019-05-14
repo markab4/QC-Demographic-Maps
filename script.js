@@ -131,7 +131,6 @@ function regenerateGlobe() {
         }
         vertices.push(verticesRow);
     }
-    console.log("margin-left: " + segWidth + 'px');
     $("section").css("margin-left", segWidth + 'px');
     for (y = 0; y < segY; ++y) {
         for (x = 0; x < segX; ++x) {
@@ -375,6 +374,7 @@ function makeMap(year) {
         .append('g')
         .attr('class', 'map')
     ;
+
     let maps = document.getElementsByTagName("svg");
     for (let i = 0; i < maps.length; i++) {
         maps[i].classList.add("map-container", "row", "justify-content-center");
