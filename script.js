@@ -1,61 +1,29 @@
 let config = {
-    percent: 0,
-    lat: 0,
-    lng: 0,
-    segX: 14,
-    segY: 12,
-    isHaloVisible: true,
-    isPoleVisible: true,
-    autoSpin: true,
-    zoom: 0,
-
-    skipPreloaderAnimation: false,
-
-    goToHongKong: function () {
-        goTo(22.28552, 114.15769);
-    }
-};
-
-let stats;
-let imgs;
-let preloader;
-let preloadPercent;
-let globeDoms;
-let vertices;
-
-let world;
-let worldBg;
-let globe;
-let globeContainer;
-let globePole;
-let globeHalo;
-
-let pixelExpandOffset = 1.5;
-let rX = 0;
-let rY = 0;
-let rZ = 0;
-let sinRX;
-let sinRY;
-let sinRZ;
-let cosRX;
-let cosRY;
-let cosRZ;
-let dragX;
-let dragY;
-let dragLat;
-let dragLng;
-
-let isMouseDown = false;
-let isTweening = false;
-let tick = 1;
-
-let URLS = {
-    bg: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/6043/css_globe_bg.jpg',
-    diffuse: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/6043/css_globe_diffuse.jpg',
-    halo: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/6043/css_globe_halo.png',
-};
-
-let transformStyleName = PerspectiveTransform.transformStyleName;
+        percent: 0,
+        lat: 0,
+        lng: 0,
+        segX: 14,
+        segY: 12,
+        isHaloVisible: true,
+        isPoleVisible: true,
+        autoSpin: true,
+        zoom: 0,
+        skipPreloaderAnimation: false,
+    },
+    stats, globeDoms, vertices, world, worldBg, globe, globeContainer, globePole, globeHalo,
+    pixelExpandOffset = 1.5,
+    rX = 0, rY = 0, rZ = 0,
+    sinRX, sinRY, sinRZ,
+    cosRX, cosRY, cosRZ,
+    dragX, dragY, dragLat, dragLng,
+    isMouseDown = false, isTweening = false,
+    tick = 1,
+    URLS = {
+        bg: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/6043/css_globe_bg.jpg',
+        diffuse: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/6043/css_globe_diffuse.jpg',
+        halo: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/6043/css_globe_halo.png',
+    },
+    transformStyleName = PerspectiveTransform.transformStyleName;
 
 function init(ref) {
 
@@ -349,15 +317,21 @@ $(function () {
         value: 2007,
         min: 2007,
         max: 2018,
-        step: 1,
+        step: .0001,
+        animate: "slow",
         slide: function (event, ui) {
-            $("#amount").val(ui.value);
-            makeMap(ui.value);
+            let year = Math.round(ui.value);
+            $("#amount").val(year);
+        },
+        stop: function (event, ui) {
+            let year = Math.round(ui.value);
+            $slider.slider("value", year);
+            makeMap(year);
             let maps = document.getElementsByClassName("map-container");
             for (let i = 0; i < maps.length - 1; i++) {
                 maps[i].classList.add("remove");
             }
-            $(".remove").fadeOut(3000);
+            $(".remove").fadeOut(5000);
             setTimeout(function () {
                 let remove = document.getElementsByClassName("remove");
                 for (let i = 0; i < remove.length; i++) {
@@ -365,7 +339,8 @@ $(function () {
                 }
                 // map.parentNode.removeChild(map);
                 // map.style = "visibility: none";
-            }, 1000);
+            }, 10000);
+            // console.log(ui);
         }
     });
     let year = $slider.slider("value");
@@ -419,7 +394,7 @@ function makeMap(year) {
 
     function ready(error, data, enrollmentYear) {
         let studentsByCountryId = {};
-        console.log("data", data, "enrollmentYear", enrollmentYear, "studentsByCountryId", studentsByCountryId);
+        // console.log("data", data, "enrollmentYear", enrollmentYear, "studentsByCountryId", studentsByCountryId);
         enrollmentYear.forEach(function (d) {
             studentsByCountryId[d.id] = +d["students" + year];
         });
@@ -438,7 +413,7 @@ function makeMap(year) {
             })
             .style('stroke', 'white')
             .style('stroke-width', 1.5)
-            .style("opacity", 0.8)
+            // .style("opacity", 1)
             // tooltips
             .style("stroke", "white")
             .style('stroke-width', 0.3)
@@ -454,7 +429,7 @@ function makeMap(year) {
                 tip.hide(d);
 
                 d3.select(this)
-                    .style("opacity", 0.8)
+                // .style("opacity", 0.8)
                     .style("stroke", "white")
                     .style("stroke-width", 0.3);
             });
