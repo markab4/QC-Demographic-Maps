@@ -1,4 +1,4 @@
-# Queens College Diversity Map
+# Queens College Diversity
 ### Data visualisations of Queens College demographics
 
 Not only is Queens College is located in Queens, New York, the most diverse county in the nation, but the school also has a student body which represents 170 countries and speak over 90 different native languages. This rich variety has influenced Queens College's curriculum, research, and outreach programs.
