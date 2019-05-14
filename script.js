@@ -131,7 +131,8 @@ function regenerateGlobe() {
         }
         vertices.push(verticesRow);
     }
-
+    console.log("margin-left: " + segWidth + 'px');
+    $("section").css("margin-left", segWidth + 'px');
     for (y = 0; y < segY; ++y) {
         for (x = 0; x < segX; ++x) {
             dom = document.createElement('div');
