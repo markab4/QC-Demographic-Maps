@@ -394,13 +394,28 @@ function makeMap(year) {
         .await(ready);
 
     function ready(error, data, enrollmentYear) {
-        let studentsByCountryId = {};
+        let studentsByCountryId = {},
+            studentsByCountryName = {};
         // console.log("data", data, "enrollmentYear", enrollmentYear, "studentsByCountryId", studentsByCountryId);
         enrollmentYear.forEach(function (d) {
             studentsByCountryId[d.id] = +d["students" + year];
+            studentsByCountryName[d.name] = +d["students" + year];
         });
+        console.log(studentsByCountryName);
+        let props = Object.keys(studentsByCountryName).map(function(key) {
+            return { key: key, value: this[key] };
+        }, studentsByCountryName);
+        props.sort(function(p1, p2) { return p2.value - p1.value; });
+        let topFive = props.slice(0, 5);
+        console.log("topFive", topFive);
         data.features.forEach(function (d) {
-            d["students" + year] = studentsByCountryId[d.id]
+            d["students" + year] = studentsByCountryId[d.id];
+        });
+        console.log(studentsByCountryId);
+
+        topFive.forEach(function(element, index){
+            document.querySelector("#country" + index).innerHTML = element.key;
+            document.querySelector("#students" + index).innerHTML = element.value;
         });
 
         svg.append("g")
