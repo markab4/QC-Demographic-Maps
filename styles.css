@@ -2,12 +2,17 @@
     margin: 0.25in 1in;
 }
 
+#slider {
+    background: #f6931f;
+}
+
 #map-body {
-    height: 70vh;
+    height: 500px;
 }
 
 .map-container {
     position: absolute;
+    left:0;
     margin: 0 auto 50px;
 }
 
@@ -163,6 +168,21 @@ section {
     height: 715px;
     margin-left: -368px;
     margin-top: -350px;
+}
+table {
+    padding: 50px;
+    color: white;
+    width: 8vw !important;
+    margin-top: 25px;
+}
+
+td, th {
+    text-align: center;
+}
+
+
+td {
+    font-size: 1rem!important;
 }
 
 footer {

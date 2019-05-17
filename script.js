@@ -377,7 +377,9 @@ function makeMap(year) {
 
     let maps = document.getElementsByTagName("svg");
     for (let i = 0; i < maps.length; i++) {
-        maps[i].classList.add("map-container", "row", "justify-content-center");
+        maps[i].classList.add("map-container",
+            // "row", "justify-content-center"
+        );
     }
     let projection = d3.geoMercator()
         .scale(130)
@@ -414,8 +416,8 @@ function makeMap(year) {
         console.log(studentsByCountryId);
 
         topFive.forEach(function(element, index){
-            document.querySelector("#country" + index).innerHTML = element.key;
-            document.querySelector("#students" + index).innerHTML = element.value;
+            $("#country" + index).html(element.key);
+            $("#students" + index).html(element.value);
         });
 
         svg.append("g")
