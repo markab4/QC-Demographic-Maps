@@ -1,9 +1,13 @@
+body {
+    font-family: "avenir next", Arial, sans-serif!important;
+}
+
 .main-body {
     margin: 0.25in 1in;
 }
 
 #slider {
-    background: #f6931f;
+    background: rgba(255, 164, 0, 0.64);
 }
 
 #map-body {
@@ -138,8 +142,11 @@ section {
     position: absolute;
     left: 50%;
     top: 10%;
-    margin-right: 10%;
+    margin-right: 4%;
     text-shadow: 6px 6px 4px #000000;
+    box-shadow: 6px 6px 4px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.6);
 }
 
 .world-globe-pole {
@@ -172,14 +179,23 @@ section {
 table {
     padding: 50px;
     color: white;
-    width: 8vw !important;
+    max-width: 12vw!important;
     margin-top: 25px;
+    line-height: 1.5;
+    font-weight: 400;
+    font-family: "avenir next", Arial, sans-serif;
+    position: relative;
+    left: 40px;
 }
 
 td, th {
     text-align: center;
 }
 
+th {
+    color: #FFA500;
+    font-weight: 600!important;
+}
 
 td {
     font-size: 1rem!important;

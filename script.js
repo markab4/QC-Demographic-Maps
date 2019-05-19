@@ -10,7 +10,7 @@ let config = {
         zoom: 0,
         skipPreloaderAnimation: false,
     },
-    stats, globeDoms, vertices, world, worldBg, globe, globeContainer, globePole, globeHalo,
+    globeDoms, vertices, world, worldBg, globe, globeContainer, globePole, globeHalo,
     pixelExpandOffset = 1.5,
     rX = 0, rY = 0, rZ = 0,
     sinRX, sinRY, sinRZ,
@@ -39,8 +39,6 @@ function init(ref) {
 
 
     regenerateGlobe();
-
-    stats = new Stats();
 
     // events
     world.ondragstart = function () {
@@ -157,9 +155,7 @@ function regenerateGlobe() {
 
 function loop() {
     requestAnimationFrame(loop);
-    stats.begin();
     render();
-    stats.end();
 }
 
 function render() {
@@ -340,7 +336,6 @@ $(function () {
                 // map.parentNode.removeChild(map);
                 // map.style = "visibility: none";
             }, 10000);
-            // console.log(ui);
         }
     });
     let year = $slider.slider("value");
@@ -398,27 +393,24 @@ function makeMap(year) {
     function ready(error, data, enrollmentYear) {
         let studentsByCountryId = {},
             studentsByCountryName = {};
-        // console.log("data", data, "enrollmentYear", enrollmentYear, "studentsByCountryId", studentsByCountryId);
         enrollmentYear.forEach(function (d) {
             studentsByCountryId[d.id] = +d["students" + year];
             studentsByCountryName[d.name] = +d["students" + year];
         });
-        console.log(studentsByCountryName);
         let props = Object.keys(studentsByCountryName).map(function(key) {
             return { key: key, value: this[key] };
         }, studentsByCountryName);
         props.sort(function(p1, p2) { return p2.value - p1.value; });
         let topFive = props.slice(0, 5);
-        console.log("topFive", topFive);
         data.features.forEach(function (d) {
             d["students" + year] = studentsByCountryId[d.id];
         });
-        console.log(studentsByCountryId);
 
         topFive.forEach(function(element, index){
             $("#country" + index).html(element.key);
             $("#students" + index).html(element.value);
         });
+        // $(".table").css("width", $( window ).width() - 100);
 
         svg.append("g")
             .attr("class", "countries")
