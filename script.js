@@ -371,11 +371,8 @@ function makeMap(year) {
     ;
 
     let maps = document.getElementsByTagName("svg");
-    for (let i = 0; i < maps.length; i++) {
-        maps[i].classList.add("map-container",
-            // "row", "justify-content-center"
-        );
-    }
+    for (let i = 0; i < maps.length; i++)
+        maps[i].classList.add("map-container");
     let projection = d3.geoMercator()
         .scale(130)
         .translate([width / 2, height / 1.5]);
@@ -397,16 +394,18 @@ function makeMap(year) {
             studentsByCountryId[d.id] = +d["students" + year];
             studentsByCountryName[d.name] = +d["students" + year];
         });
-        let props = Object.keys(studentsByCountryName).map(function(key) {
-            return { key: key, value: this[key] };
+        let props = Object.keys(studentsByCountryName).map(function (key) {
+            return {key: key, value: this[key]};
         }, studentsByCountryName);
-        props.sort(function(p1, p2) { return p2.value - p1.value; });
+        props.sort(function (p1, p2) {
+            return p2.value - p1.value;
+        });
         let topFive = props.slice(0, 5);
         data.features.forEach(function (d) {
             d["students" + year] = studentsByCountryId[d.id];
         });
 
-        topFive.forEach(function(element, index){
+        topFive.forEach(function (element, index) {
             $("#country" + index).html(element.key);
             $("#students" + index).html(element.value);
         });
